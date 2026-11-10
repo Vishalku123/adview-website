@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="AdView — useful discoveries, explainers and clearly labelled sponsored content.">
+<meta name="theme-color" content="#29236b">
+<title>AdView — Discover Something Useful</title>
+<style>
+:root{--ink:#182033;--muted:#667085;--bg:#f5f7fb;--card:#fff;--brand:#5146e5;--line:#e6eaf2;--green:#137b51}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.nav{max-width:1080px;margin:auto;padding:13px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.logo{font-size:1.35rem;font-weight:850;letter-spacing:-.7px}.logo span{color:var(--brand)}
+nav{display:flex;align-items:center;gap:17px;flex-wrap:wrap}nav a{color:var(--muted);text-decoration:none;font-size:.9rem}
+nav a:hover{color:var(--brand)}main{max-width:1080px;margin:28px auto;padding:0 20px}
+.hero{background:linear-gradient(120deg,#211b58,#5146e5 65%,#8580fa);color:#fff;padding:36px;border-radius:24px;display:grid;grid-template-columns:1.4fr .8fr;gap:20px;align-items:center}
+.eyebrow{text-transform:uppercase;letter-spacing:1.5px;font-size:.73rem;font-weight:800;opacity:.8}
+h1{font-size:clamp(2rem,5vw,3.3rem);line-height:1.05;letter-spacing:-1.8px;margin:10px 0 14px}
+.hero p{max-width:560px;color:#e6e7ff;margin:0}.hero-art{font-size:6rem;text-align:center}
+.section-head{display:flex;justify-content:space-between;align-items:end;margin:30px 0 14px;gap:12px}
+h2{font-size:1.3rem;margin:0;letter-spacing:-.4px}.muted{color:var(--muted);font-size:.9rem}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 5px 20px #18254b08}
+.emoji{font-size:2rem}.tag{display:inline-block;background:#eef0ff;color:#4338ca;border-radius:99px;padding:4px 9px;font-size:.72rem;font-weight:750;margin:12px 0 7px}
+.card h3{margin:0 0 7px;font-size:1.08rem}.card p{margin:0;color:var(--muted);font-size:.91rem}
+.ad-slot{margin:22px 0;background:#fff;border:1.5px dashed #b9c1d3;border-radius:18px;min-height:118px;display:flex;align-items:center;justify-content:center;text-align:center;padding:22px;color:var(--muted)}
+.ad-slot strong{display:block;color:#344054;margin-bottom:4px}.ad-slot small{font-size:.78rem}
+.notice{background:#fff8e7;border:1px solid #f3dfaa;color:#775313;padding:13px 15px;border-radius:14px;font-size:.87rem;margin-top:18px}
+.good{background:#eaf8f1;border:1px solid #c8edda;color:#176345}
+button,.button{border:0;background:var(--brand);color:#fff;border-radius:11px;padding:10px 14px;font-weight:750;font-size:.9rem;cursor:pointer;text-decoration:none;display:inline-block}
+button.secondary,.button.secondary{background:#eef0ff;color:#4038b8}
+button:hover,.button:hover{filter:brightness(.96)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.result{font-weight:700;color:var(--green);margin-top:8px;min-height:24px}
+.panel{display:none;margin-top:16px}.panel.show{display:block}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.stat{background:#f7f8ff;border:1px solid var(--line);border-radius:13px;padding:14px}.stat b{display:block;font-size:1.35rem}
+label{display:block;font-size:.85rem;font-weight:700;margin:12px 0 5px}input,textarea{width:100%;padding:11px;border:1px solid #d6dbe7;border-radius:10px;font:inherit;background:#fff}
+textarea{min-height:90px;resize:vertical}.small{font-size:.8rem;color:var(--muted)}
+footer{max-width:1080px;margin:35px auto 0;padding:24px 20px 40px;color:var(--muted);font-size:.82rem;border-top:1px solid var(--line)}
+footer a{color:var(--brand)}
+@media(max-width:760px){.hero{grid-template-columns:1fr;padding:27px}.hero-art{display:none}.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.nav{padding:12px 15px;align-items:flex-start}.nav nav{gap:10px}nav a{font-size:.82rem}main{padding:0 15px;margin-top:18px}}
+</style>
+</head>
+<body>
+<header><div class="nav"><div class="logo">Ad<span>View</span></div><nav><a href="#discover">Discover</a><a href="#quiz">Quiz</a><a href="#account">Account demo</a><a href="#about">About</a></nav></div></header>
+<main>
+<section class="hero"><div><div class="eyebrow">Learn · Explore · Discover</div><h1>Make every visit worth your time.</h1><p>Short explainers, useful ideas and clearly labelled sponsored discoveries — all in one simple place.</p><div class="row" style="margin-top:20px"><a class="button" href="#discover">Explore content</a><a class="button secondary" href="#account">Preview dashboard</a></div></div><div class="hero-art" aria-hidden="true">✦</div></section>
+<div class="notice"><b>Development preview:</b> This website is a static prototype. Sign-in, analytics and advertising are not connected yet. No personal information is collected and no rewards or payments are issued.</div>
+
+<div class="section-head" id="discover"><div><h2>Explore something useful</h2><div class="muted">Helpful sample content gives visitors a reason to return.</div></div></div>
+<section class="grid">
+<article class="card"><div class="emoji">🧠</div><span class="tag">STUDY SMARTER</span><h3>Try a 25-minute focus sprint</h3><p>Choose one small task, keep distractions away, and take a short break when the timer ends.</p></article>
+<article class="card"><div class="emoji">🌍</div><span class="tag">DID YOU KNOW?</span><h3>Why is the sky blue?</h3><p>Air molecules scatter shorter blue wavelengths of sunlight more strongly than longer red wavelengths.</p></article>
+<article class="card"><div class="emoji">💡</div><span class="tag">USEFUL IDEA</span><h3>Make a simple weekly plan</h3><p>Pick three priorities for the week and break each one into small, achievable steps.</p></article>
+</section>
+
+<section class="ad-slot" aria-label="Advertisement placeholder"><div><strong>Advertisement space — inactive</strong><small>A real ad unit may be added only after approval by a suitable ad network and policy review.</small></div></section>
+
+<section class="card" id="quiz"><span class="tag">QUICK QUIZ</span><h2>Which habit can help you focus?</h2><p class="muted">Choose an answer to try the demo interaction.</p><div class="row"><button class="secondary" onclick="answer(false)">Keep many tabs open</button><button onclick="answer(true)">Work on one task</button></div><div class="result" id="result" aria-live="polite"></div></section>
+
+<div class="section-head" id="account"><div><h2>Account & admin preview</h2><div class="muted">Visual mock-up only — not real authentication.</div></div></div>
+<section class="card">
+<div class="row"><button onclick="showPanel('signup')">Sign-up preview</button><button class="secondary" onclick="showPanel('login')">Login preview</button><button class="secondary" onclick="showPanel('admin')">Admin dashboard preview</button></div>
+<div id="signup" class="panel"><h3>Create an account — preview</h3><label for="su-email">Email</label><input id="su-email" type="email" placeholder="you@example.com"><p class="small">Demo only. This form does not submit or save your email.</p></div>
+<div id="login" class="panel"><h3>Login — preview</h3><label for="li-email">Email</label><input id="li-email" type="email" placeholder="you@example.com"><label for="li-pass">Password</label><input id="li-pass" type="password" placeholder="Not connected"><p class="small">Demo only. Do not enter a real password here.</p></div>
+<div id="admin" class="panel"><h3>Admin dashboard — sample figures</h3><div class="stats"><div class="stat"><span class="small">Visitors</span><b>—</b><span class="small">Not connected</span></div><div class="stat"><span class="small">Ad impressions</span><b>—</b><span class="small">Not connected</span></div><div class="stat"><span class="small">Estimated revenue</span><b>₹—</b><span class="small">Not connected</span></div></div><p class="small">These are intentionally blank: real analytics require a properly configured analytics service, and real revenue requires an approved ad network.</p></div>
+</section>
+
+<div class="section-head" id="about"><div><h2>About AdView</h2><div class="muted">A content-first project with transparent sponsorships.</div></div></div>
+<section class="card"><h3>About</h3><p class="muted">AdView is a publishing website for useful explainers, learning resources and clearly labelled sponsored content. Its main purpose is to provide genuine value to visitors.</p><h3 style="margin-top:18px">Privacy policy — starter notice</h3><p class="muted">This prototype does not collect, store or transmit personal information. Before enabling accounts, analytics, contact forms or advertising, publish a complete privacy policy explaining what data is collected, why it is used, which providers receive it, and how visitors can contact the site owner.</p><h3 style="margin-top:18px">Contact</h3><p class="muted">Add a monitored contact email before public launch. Do not publish a personal phone number or home address.</p></section>
+</main>
+<footer>© 2026 AdView · Development preview · <a href="#about">About & privacy</a> · Contact details to be added before launch.</footer>
+<script>
+function answer(correct){document.getElementById('result').textContent=correct?'Correct! Focusing on one task can reduce distractions.':'Try again — one task at a time is a useful starting point.';}
+function showPanel(id){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('show'));document.getElementById(id).classList.add('show');}
+</script>
+</body></html>
