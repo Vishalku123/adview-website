@@ -59,20 +59,209 @@ footer a{color:var(--brand)}
 
 <section class="card" id="quiz"><span class="tag">QUICK QUIZ</span><h2>Which habit can help you focus?</h2><p class="muted">Choose an answer to try the demo interaction.</p><div class="row"><button class="secondary" onclick="answer(false)">Keep many tabs open</button><button onclick="answer(true)">Work on one task</button></div><div class="result" id="result" aria-live="polite"></div></section>
 
-<div class="section-head" id="account"><div><h2>Account & admin preview</h2><div class="muted">Visual mock-up only — not real authentication.</div></div></div>
-<section class="card">
-<div class="row"><button onclick="showPanel('signup')">Sign-up preview</button><button class="secondary" onclick="showPanel('login')">Login preview</button><button class="secondary" onclick="showPanel('admin')">Admin dashboard preview</button></div>
-<div id="signup" class="panel"><h3>Create an account — preview</h3><label for="su-email">Email</label><input id="su-email" type="email" placeholder="you@example.com"><p class="small">Demo only. This form does not submit or save your email.</p></div>
-<div id="login" class="panel"><h3>Login — preview</h3><label for="li-email">Email</label><input id="li-email" type="email" placeholder="you@example.com"><label for="li-pass">Password</label><input id="li-pass" type="password" placeholder="Not connected"><p class="small">Demo only. Do not enter a real password here.</p></div>
-<div id="admin" class="panel"><h3>Admin dashboard — sample figures</h3><div class="stats"><div class="stat"><span class="small">Visitors</span><b>—</b><span class="small">Not connected</span></div><div class="stat"><span class="small">Ad impressions</span><b>—</b><span class="small">Not connected</span></div><div class="stat"><span class="small">Estimated revenue</span><b>₹—</b><span class="small">Not connected</span></div></div><p class="small">These are intentionally blank: real analytics require a properly configured analytics service, and real revenue requires an approved ad network.</p></div>
-</section>
 
+<div class="section-head" id="account">
+  <div>
+    <h2>AdView Account</h2>
+    <div class="muted">Create an account or sign in securely.</div>
+  </div>
+</div>
+
+<section class="card">
+  <div id="auth-status" class="notice">
+    You are not signed in.
+  </div>
+
+  <div id="auth-forms">
+    <h3>Create your account</h3>
+
+    <form id="signup-form">
+      <label for="su-email">Email address</label>
+      <input id="su-email" type="email"
+        autocomplete="email" required>
+
+      <label for="su-pass">Password</label>
+      <input id="su-pass" type="password"
+        autocomplete="new-password" minlength="6" required>
+
+      <button type="submit">Create account</button>
+    </form>
+
+    <hr style="margin:22px 0;border:0;border-top:1px solid #e6eaf2">
+
+    <h3>Already have an account?</h3>
+
+    <form id="login-form">
+      <label for="li-email">Email address</label>
+      <input id="li-email" type="email"
+        autocomplete="email" required>
+
+      <label for="li-pass">Password</label>
+      <input id="li-pass" type="password"
+        autocomplete="current-password" required>
+
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+  <div id="signed-in" hidden>
+    <p>You are signed in as:</p>
+    <strong id="user-email"></strong>
+    <p id="verification-status" class="small"></p>
+    <button id="verify-button" type="button">
+      Send verification email
+    </button>
+    <button id="logout-button" type="button"
+      class="secondary">Logout</button>
+  </div>
+
+  <p id="auth-message" class="result"
+    aria-live="polite"></p>
+</section>
+  
 <div class="section-head" id="about"><div><h2>About AdView</h2><div class="muted">A content-first project with transparent sponsorships.</div></div></div>
 <section class="card"><h3>About</h3><p class="muted">AdView is a publishing website for useful explainers, learning resources and clearly labelled sponsored content. Its main purpose is to provide genuine value to visitors.</p><h3 style="margin-top:18px">Privacy policy — starter notice</h3><p class="muted">This prototype does not collect, store or transmit personal information. Before enabling accounts, analytics, contact forms or advertising, publish a complete privacy policy explaining what data is collected, why it is used, which providers receive it, and how visitors can contact the site owner.</p><h3 style="margin-top:18px">Contact</h3><p class="muted">Add a monitored contact email before public launch. Do not publish a personal phone number or home address.</p></section>
 </main>
 <footer>© 2026 AdView · Development preview · <a href="#about">About & privacy</a> · Contact details to be added before launch.</footer>
+
 <script>
-function answer(correct){document.getElementById('result').textContent=correct?'Correct! Focusing on one task can reduce distractions.':'Try again — one task at a time is a useful starting point.';}
-function showPanel(id){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('show'));document.getElementById(id).classList.add('show');}
+function answer(correct) {
+  document.getElementById('result').textContent =
+    correct
+      ? 'Correct! Focusing on one task can reduce distractions.'
+      : 'Try again — one task at a time is a useful starting point.';
+}
 </script>
-</body></html>
+
+<script type="module">
+import { initializeApp }
+  from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  sendEmailVerification
+} from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+
+// Replace these placeholders with your Firebase Config values.
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "adview-3e752",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const statusBox = document.getElementById("auth-status");
+const forms = document.getElementById("auth-forms");
+const signedIn = document.getElementById("signed-in");
+const message = document.getElementById("auth-message");
+
+function showMessage(text) {
+  message.textContent = text;
+}
+
+function friendlyError(error) {
+  const errors = {
+    "auth/email-already-in-use": "This email already has an account.",
+    "auth/invalid-email": "Please enter a valid email.",
+    "auth/weak-password": "Choose a stronger password.",
+    "auth/invalid-credential": "Email or password is incorrect.",
+    "auth/too-many-requests": "Too many attempts. Try again later."
+  };
+
+  return errors[error.code] || "Something went wrong. Please try again.";
+}
+
+// Signup
+document.getElementById("signup-form")
+  .addEventListener("submit", async (event) => {
+    event.preventDefault();
+    showMessage("Creating your account...");
+
+    const email = document.getElementById("su-email").value.trim();
+    const password = document.getElementById("su-pass").value;
+
+    try {
+      const result = await createUserWithEmailAndPassword(
+        auth, email, password
+      );
+
+      await sendEmailVerification(result.user);
+      showMessage("Account created! Please check your email for verification.");
+    } catch (error) {
+      showMessage(friendlyError(error));
+    }
+  });
+
+// Login
+document.getElementById("login-form")
+  .addEventListener("submit", async (event) => {
+    event.preventDefault();
+    showMessage("Signing in...");
+
+    const email = document.getElementById("li-email").value.trim();
+    const password = document.getElementById("li-pass").value;
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      showMessage("Login successful!");
+    } catch (error) {
+      showMessage(friendlyError(error));
+    }
+  });
+
+// Logout
+document.getElementById("logout-button")
+  .addEventListener("click", async () => {
+    try {
+      await signOut(auth);
+      showMessage("You have logged out.");
+    } catch (error) {
+      showMessage(friendlyError(error));
+    }
+  });
+
+// Email verification
+document.getElementById("verify-button")
+  .addEventListener("click", async () => {
+    if (!auth.currentUser) return;
+
+    try {
+      await sendEmailVerification(auth.currentUser);
+      showMessage("Verification email sent. Check your inbox.");
+    } catch (error) {
+      showMessage(friendlyError(error));
+    }
+  });
+
+// Update the page when login state changes
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    forms.hidden = true;
+    signedIn.hidden = false;
+    statusBox.textContent = "You are signed in.";
+    document.getElementById("user-email").textContent = user.email;
+
+    document.getElementById("verification-status").textContent =
+      user.emailVerified
+        ? "Email verified."
+        : "Email not verified yet. Please check your inbox.";
+
+    document.getElementById("verify-button").hidden = user.emailVerified;
+  } else {
+    forms.hidden = false;
+    signedIn.hidden = true;
+    statusBox.textContent = "You are not signed in.";
+  }
+});
+</script>
+</body>
+</html>
